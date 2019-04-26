@@ -4,9 +4,12 @@ import axios from 'axios'
 
 class App extends Component {
 
+    constructor (props) {
+        super(props);
+        this.state = {data:''}
+    }
 
-    render() {
-
+    async componentDidMount() {
         const instance = axios.create({
             baseURL: 'https://api.musixmatch.com/ws/1.1/',
             timeout: 1000,
@@ -14,7 +17,7 @@ class App extends Component {
         });
 
 
-        instance.get('/track.search', {
+        const data = await instance.get('/track.search', {
             params: {
                 q_track: 'In The End',
                 q_artist: 'Linkin Park',
@@ -27,12 +30,17 @@ class App extends Component {
             }
         })
             .then(function (response) {
-                console.log(response);
+                return (response.data);
             });
+        this.setState({data})
+    }
+
+    render() {
 
         return (
             <div>
                 <h1>Hi</h1>
+                {this.state.data}
             </div>
         )
     }
