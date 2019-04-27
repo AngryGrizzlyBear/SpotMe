@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import parse from 'parse-jsonp'
 
 
 class App extends Component {
 
-    constructor (props) {
+    constructor(props) {
         super(props);
-        this.state = {data:''}
+        this.state = {data: ''}
     }
 
     async componentDidMount() {
@@ -24,23 +25,24 @@ class App extends Component {
                 apikey: '1be0819a875857f63d58ac8d8a84dd46',
                 format: 'jsonp',
                 callback: "jsonp_callback",
-                quorum_factor: 1,
-                page_size: 3,
-                page: 1
+                // quorum_factor: 1,
+                page_size: 1,
+                // page: 1
             }
         })
             .then(function (response) {
-                return (response.data);
+                return parse("jsonp_callback", response.data);
             });
         this.setState({data})
     }
 
     render() {
 
+        console.log(this.state.data);
         return (
             <div>
                 <h1>Hi</h1>
-                {this.state.data}
+                {JSON.stringify(this.state.data, null, 2)}
             </div>
         )
     }
