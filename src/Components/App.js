@@ -7,7 +7,7 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {data: ''}
+        this.state = {data: null}
     }
 
     async componentDidMount() {
@@ -36,13 +36,16 @@ class App extends Component {
         this.setState({data})
     }
 
+    getTrackid() {
+        return this.state.data && this.state.data.message.body.track_list[0].track.track_id
+    }
+
     render() {
 
         console.log(this.state.data);
         return (
             <div>
                 <h1>Hi</h1>
-                {JSON.stringify(this.state.data, null, 2)}
             </div>
         )
     }
